@@ -37,9 +37,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _checkPermission() async {
-    print("Checking permissions...");
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Checking permissions...");
     bool granted = await _sleepService.requestPermissions();
-    print("Permissions granted result: $granted");
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Permissions granted result: $granted");
     setState(() {
       _hasPermission = granted;
     });

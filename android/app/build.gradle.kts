@@ -10,7 +10,7 @@ plugins {
 dependencies {
     implementation("org.tensorflow:tensorflow-lite:2.17.0")
     implementation("org.tensorflow:tensorflow-lite-select-tf-ops:2.16.1")
-    implementation("androidx.health:health-services-client:1.0.0")
+    //implementation("androidx.health:health-services-client:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.11.0")
 }

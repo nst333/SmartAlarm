@@ -71,6 +71,8 @@ class SleepTrackingService : Service(), SensorEventListener {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
+        lastPredictedStage = "onCreate DONE"
     }
 
     private fun loadModelFile(): ByteBuffer {
@@ -100,6 +102,7 @@ class SleepTrackingService : Service(), SensorEventListener {
     private fun startSensors() {
         heartRateSensor?.let { sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL) }
         accelerometerSensor?.let { sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL) }
+        lastPredictedStage = "Sensor Registration DONE"
 
         monitoringRunnable = object : Runnable {
             override fun run() {

@@ -29,23 +29,27 @@ class SleepMonitorService {
   static const EventChannel _sleepEventChannel = EventChannel('io.github.nst333/sleep_data');
 
   Future<bool> requestPermissions() async {
-    Map<Permission, PermissionStatus> statuses = await [
+    Map<Permission, PermissionStatus> basicStatuses = await [
       Permission.sensors,
       Permission.activityRecognition,
-      Permission.sensorsAlways,
       Permission.notification,
     ].request();
 
-    print("Permission.sensors: ${statuses[Permission.sensors]}");
-    print("Permission.activityRecognition: ${statuses[Permission.activityRecognition]}");
-    print("Permission.sensorsAlways: ${statuses[Permission.sensorsAlways]}");
-    print("Permission.notification: ${statuses[Permission.notification]}");
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Permission.sensors: ${basicStatuses[Permission.sensors]}");
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Permission.activityRecognition: ${basicStatuses[Permission.activityRecognition]}");
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Permission.notification: ${basicStatuses[Permission.notification]}");
 
-    // Wear OS에서 sensorsAlways는 수동 설정이 필요할 수 있으므로, 
-    // 일단 sensors와 activityRecognition만으로 판단하거나 로직을 유연하게 가져갑니다.
-    bool essentialGranted = (statuses[Permission.sensors]?.isGranted ?? false) &&
-                            (statuses[Permission.activityRecognition]?.isGranted ?? false);
-    
+    bool essentialGranted = (basicStatuses[Permission.sensors]?.isGranted ?? false) &&
+        (basicStatuses[Permission.activityRecognition]?.isGranted ?? false);
+
+    if (basicStatuses[Permission.sensors]?.isGranted == true) {
+      PermissionStatus alwaysStatus = await Permission.sensorsAlways.request();
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Permission.sensorsAlways: $alwaysStatus");
+    } else {
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Permission.sensorsAlways: 요청 불가 (기본 권한 거절됨)");
+    }
+
+    // Wear OS 특성상 essentialGranted만으로 기본 작동 여부를 판단합니다.
     return essentialGranted;
   }
 
